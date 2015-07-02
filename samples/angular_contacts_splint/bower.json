@@ -1,0 +1,23 @@
+{
+  "name": "angular_contacts",
+  "version": "1.0.0",
+  "authors": [
+    "Warren Godone-Maresca <wpgodone@us.ibm.com>"
+  ],
+  "description": "sample for script portlet",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-less": "~3.3.4",
+    "angular": "~1.4.1",
+    "jquery": "~2.1.4",
+    "angular-route": "~1.4.1"
+  }
+}

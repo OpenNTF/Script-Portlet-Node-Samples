@@ -1,0 +1,30 @@
+<div class="container-fluid">
+<form  ng-submit="update()" class="form" >
+  <div class="form-group">
+    <label>Email Address</label>
+    <input readonly type="email" ng-model="selected.email" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>First Name</label>
+    <input ng-model="selected.firstName" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Last Name</label>
+    <input ng-model="selected.lastName" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Phone</label>
+    <input ng-model="selected.phone" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Date Of Birth</label>
+    <input ng-model="selected.birthDate" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Notes</label>
+    <textarea  ng-model="selected.notes" class="form-control" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+  <a href="#/details/{{selected.email}}">Cancel</a>
+</form>
+</div>

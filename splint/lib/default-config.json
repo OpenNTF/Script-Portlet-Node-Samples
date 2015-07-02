@@ -1,0 +1,36 @@
+{
+  "mainHtmlFile": "index.html",
+  "mainPortletClass": "__SPNS__sp-wrapper",
+  "fix": false,
+
+  "cwd": "./",
+
+  "fixes": {
+    "html-jquery": true,
+    "html-external-libs": false,
+    "css-selectors": true,
+    "css-positions": true,
+    "css-widths": true,
+    "js-selectors": true
+  },
+
+  "checks" : {
+    "html-jquery": true,
+    "html-external-libs": true,
+    "css-selectors": true,
+    "css-widths": true,
+    "css-positions": true,
+    "css-fonts": true,
+    "js-selectors": true,
+    "js-urls": true
+  },
+
+  "raw": false,
+  "logFile": "",
+  "silent": false,
+  "verbose": false,
+
+  "src": ["./**", "!**/node_modules/**", "!node_modules", "!**/sp-build/**", "!.", "!sp-build"],
+  "ignore": ["node_modules/**"],
+  "dest": "sp-build"
+}

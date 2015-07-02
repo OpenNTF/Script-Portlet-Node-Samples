@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <h2>About this sample</h2>
+    <p>
+        This is an  example of a simple application built with the AngularJS framework and the Bootstrap CSS library.   It can run standalone by loading index.html, and it can be imported or pushed into a Script Portlet.   It's an example of a "single page application" where the different views within a single index.html page are dynamically loaded
+         by the AngularJS framework.   When used in a Script Portlet, a single page application like this is displayed as one portlet on a portal page, typically alongside other portlets.
+    </p>
+    <p>
+    	Some of the features shown in this sample:
+    <ul>
+        <li>The four different views (list, details, update, and about) are separate HTML pages loaded as partial pages using the AngularJS $routeProvider service, configured in app.js.</li>
+        <li>An AngularJS service named "contactsLocalStorageService" is used to retrieve and update a list of contacts.   Data initially comes from a JSON file but after that is stored using HTML local storage.   It can be reset to the file data by clicking "Reset Default Data."
+        <li>The AngularJS $http service is used to load the default JSON data file, contacts.json.</li>
+        <li>There are three simple AngularJS controllers used, for the list view, the details view, and the update view.
+        </li>
+        <li>There are three local JS files used, and when running in Script Portlet they are combined into a single resource by WebSphere Portal's resource aggregation feature
+        	(available in version 8.5, CF03 or later).   See the comment at the top of index.html for how this is enabled.
+        </li>
+        <li>The Bootstrap library is used for styling of the application UI.
+        </li>
+    </ul>
+</div>

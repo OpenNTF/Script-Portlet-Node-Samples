@@ -1,0 +1,18 @@
+{
+  "wcmSiteArea": "Script Portlet Library/Script Portlet Applications/Playground",
+  "wcmContentName": "CSS Testing Portlet",
+  "mainHtmlFile": "index.html",
+  	"excludes": [
+		"^bin$",
+		"^lib$",
+		"^src$",
+		"^\\.classpath$",
+		"^\\.project$",
+		"^sp-config.json$",
+		"^sp-cmdln.log$",
+		"^sp.bat$",
+		"^sp.sh$",
+    "node_modules",
+    "^[^r]"
+	]
+}

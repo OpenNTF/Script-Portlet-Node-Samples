@@ -1,0 +1,12 @@
+{
+  "fix": true,
+  "fixes": {
+    "css-selectors": true,
+    "css-positions": true,
+    "css-widths": true,
+    "html-jquery": true,
+    "html-external-libs": false,
+    "js-selectors": true
+  },
+  "silent": true
+}

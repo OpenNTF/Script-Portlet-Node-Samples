@@ -1,0 +1,10 @@
+{
+  "boss":      true,
+  "node":      true,
+  "eqeqeq":    true,
+  "undef":     true,
+  "unused":    true,
+  "onecase":   true,
+  "lastsemic": true,
+  "predef":    ["angular", "localStorage", "$", "document"]
+}

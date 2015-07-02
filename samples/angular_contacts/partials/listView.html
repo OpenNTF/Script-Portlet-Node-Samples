@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="form-inline">
+    <div class="form-group">
+        <label for="angular_search_input">Search</label>
+        <input ng-model="query" type="search" class="form-control" id="angular_search_input"></input>
+    </div>
+  </div>
+  <div>
+    <div ng-repeat="contact in contacts | filter: query | orderBy:'lastName' " class="row list-group">
+      <a href="#/details/{{contact.email}}" class="list-group-item">
+        <h4 class="list-group-item-heading">{{contact.firstName}} {{contact.lastName}}</h4>
+        <p class="list-group-item-text">{{contact.email}}</p>
+        <p class="list-group-item-text">{{contact.phone}}</p>
+    </a>
+    </div>
+    <a  ng-click="resetDefaultData()" class="row btn btn-link">Reset Default Data</a>
+  </div>
+    <!-- <pre>{{contacts | filter:query | orderBy: 'lastName' | json}}</pre> -->
+</div>

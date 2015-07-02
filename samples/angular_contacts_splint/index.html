@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- The following data-scriptportlet-combine-urls attribute causes Script Portlet to enable combining of the three
+     local application JavaScript files -->
+<html data-scriptportlet-combine-urls="true">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-route.min.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="all-scripts.js"></script>
+  <link rel="stylesheet" type="text/css" href="all-styles.css">
+</head>
+
+<script>
+  $("body");
+</script>
+
+<style>
+  .navbar .contaier {
+    margin: 9px;
+  }
+</style>
+
+<body>
+  <div ng-app="contactsApp">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li role="presentation"><div class="navbar-brand" id="portlet_logo">Angular Contacts</div></li>
+          <li role="presentation"><a href="#/list">List Contacts</a></li>
+          <li role="presentation"><a href="#/about">About</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div ng-view="">
+    </div>
+
+    <div id="example-logo">Example Inc.</div>
+  </div>
+</body>
+</html>
