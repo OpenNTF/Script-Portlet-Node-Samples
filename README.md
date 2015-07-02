@@ -50,6 +50,12 @@ opening `./release/index.html`. Note that while running gulp on the command line
 it will wait and do nothing until a file is changed. Once a file is changed, gulp
 will build and push the sample again so everything will be up to date.
 
-# Splint
+## Splint
 Splint is a Node.js utility for making your application more portlet 
 friendly. More information can be found in its README.
+
+##OPENNTF##
+This project is an OpenNTF project, and is available under the Apache License
+V2.0. All other aspects of the project, including contributions, defect
+reports, discussions, feature requests and reviews are subject to the
+[OpenNTF Terms of Use](http://openntf.org/Internal/home.nsf/dx/Terms_of_Use).
