@@ -1,6 +1,6 @@
 {
   "name": "splint",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Script Portlet Lint and Fix",
   "main": "splint",
   "license": "Copyright IBM",
