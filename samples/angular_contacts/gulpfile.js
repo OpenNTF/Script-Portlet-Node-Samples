@@ -9,7 +9,7 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
- 
+
 var gulp = require('gulp');
 var pkg = require('./package.json');
 var concat = require('gulp-concat');
@@ -18,12 +18,11 @@ var minifyCss = require('gulp-minify-css')
 var less = require('gulp-less');
 var jshint = require('gulp-jshint');
 var htmlTidy = require('gulp-htmltidy');
-
-var path = require('path');
-
 var shell = require('gulp-shell');
 
-var exec = require('child_process').exec;
+var runSequence = require('run-sequence');
+
+var path = require('path');
 
 var releaseFolder = 'release/';
 
@@ -63,16 +62,17 @@ gulp.task('build-assets', function() {
 
 gulp.task('build-all', ['build-scripts', 'build-styles', 'build-html', 'build-assets']);
 
-gulp.task('sp-push', ['build-all'], shell.task(
+gulp.task('sp-push', shell.task(
   'sp push -mainHtmlFile ' + releaseFolder + 'index.html'
 ));
 
 gulp.task('watch', function() {
-  var allFiles = [].concat.apply([], [jsFiles, cssFiles, htmlFiles, assets]);
-
-  // Build and push when any file is changed
-  gulp.watch(allFiles, ['sp-push']);
-
+  gulp.watch(htmlFiles, function() { runSequence('build-html', 'sp-push') });
+  gulp.watch(cssFiles, function() { runSequence('build-css', 'sp-push') });
+  gulp.watch(jsFiles, function() { runSequence('build-scripts', 'sp-push') });
+  gulp.watch(assets, function() { runSequence('build-assets', 'sp-push') });
 });
 
-gulp.task('default', ['sp-push', 'watch']);
+gulp.task('default', function() {
+  runSequence('build-all', 'sp-push', 'watch');
+});

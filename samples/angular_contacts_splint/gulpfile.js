@@ -18,6 +18,7 @@ var less = require('gulp-less');
 var jshint = require('gulp-jshint');
 var shell = require('gulp-shell');
 var htmlTidy = require('gulp-htmltidy')
+var runSequence = require('run-sequence')
 
 var splint = require('splint/gulp');
 
@@ -68,12 +69,12 @@ gulp.task('sp-push', ['build-all'], shell.task(
 ));
 
 gulp.task('watch', function() {
-  // Merges all the files into a single array
-  var allFiles = [].concat.apply([], [jsFiles, lessFiles, htmlFiles, assets, ['splint-config.json']]);
-
-  // Build and push the app when a source file is changed
-  gulp.watch(allFiles, ['sp-push']);
+  gulp.watch(htmlFiles, function() { runSequence('build-html', 'sp-push') });
+  gulp.watch(lessFiles, function() { runSequence('build-less', 'sp-push') });
+  gulp.watch(jsFiles, function() { runSequence('build-scripts', 'sp-push') });
+  gulp.watch(assets, function() { runSequence('build-assets', 'sp-push') });
 });
 
-
-gulp.task('default', ['sp-push', 'watch']);
+gulp.task('default', function() {
+  runSequence('build-all', 'sp-push', 'watch');
+});

@@ -52,7 +52,10 @@ will build and push the sample again so everything will be up to date.
 
 ## Splint
 Splint is a Node.js utility for making your application more portlet 
-friendly. More information can be found in its README.
+friendly. More information can be found in its README. It can be installed globally by running:
+```
+$ npm install https://github.com/OpenNTF/Script-Portlet-Node-Samples/raw/master/splint.tgz
+```
 
 ##OPENNTF##
 This project is an OpenNTF project, and is available under the Apache License
