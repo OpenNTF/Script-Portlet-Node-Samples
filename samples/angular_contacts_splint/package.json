@@ -18,6 +18,6 @@
     "gulp-shell": "^0.4.2",
     "gulp-uglify": "^1.2.0",
     "run-sequence": "^1.1.1",
-    "splint": "git+ssh://git@git.design.ibm.com:dxnode/digexp-splint.git"
+    "splint": "https://github.com/OpenNTF/Script-Portlet-Node-Samples/raw/master/splint.tgz"
   }
 }

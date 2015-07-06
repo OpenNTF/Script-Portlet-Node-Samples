@@ -21,7 +21,7 @@
   "bin": "bin/splint",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@git.design.ibm.com:dxnode/digexp-splint.git"
+    "url": "https://github.com/OpenNTF/Script-Portlet-Node-Samples/"
   },
   "devDependencies": {
     "bluebird": "^2.9.30",
