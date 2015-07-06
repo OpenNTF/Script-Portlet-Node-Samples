@@ -68,7 +68,7 @@ var initConfig = function() {
   // Set config.log, this can't be done in default-config, it must be done in js
   var logger = config.log || console.log;
   config.log = function(str) {
-    if (!config.silent && !(config.output && config.output.silent)) {
+    if (!config.silent) {
       logger(str);
     }
     outputLog += str + "\n";
@@ -87,16 +87,27 @@ var init = function() {
   initConfig();
   loadLints();
 
-  config.config = config.config || "./splint-config.json";
+  var configFile = config.config || "splint-config.json";
+  var searchDir = config.cwd;
+  var searchParents = config.config;
 
-  try {
-    var configFile = fs.readFileSync(path.resolve(config.cwd, config.config), "utf8");
-    configure(JSON.parse(configFile));
-  } catch (err) {
-    if (err.code !== "ENOENT") {
-      throw err;
+  do {
+    try {
+      var conf = fs.readFileSync(path.resolve(searchDir, configFile), "utf8");
+      configure(JSON.parse(conf));
+
+      reporter.log("Loading configurations from: " + path.resolve(searchDir, configFile), config.log);
+
+      searchParents = false;
+    } catch (err) {
+      if (err.code !== "ENOENT") {
+        throw err;
+      }
+      searchDir = path.resolve(searchDir + '/../'); // search the parent
+      searchParents = searchDir !== path.resolve('/'); // stop when the root is reached
     }
-  }
+  } while (searchParents);
+
   initialized = true;
 };
 

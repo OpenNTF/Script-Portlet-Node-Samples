@@ -32,8 +32,6 @@ var logFile = "", logContents;
 var log = function(str) {
   config.log(str);
   if (outputStream || logFile) {
-  //  outputStream.write(chalk.stripColor(str) + "\n");
- //   console.log("lc: " + logContents);
     logContents += chalk.stripColor(str) + "\n";
   }
 };
@@ -47,7 +45,7 @@ var warn = function(warnings, logger, verbose) {
   var path = warnings.path;
   warnings = warnings.messages;
 
-  config.log = logger;
+  config.log = logger || config.log;
 
   if (warnings.constructor !== Array) {
     warnings = [warnings];
@@ -106,11 +104,17 @@ var close = function() {
   //logFile = ""
 };
 
+var logPlain = function(str, logger) {
+  config.log = logger || config.log;
+  log(str);
+};
+
 module.exports = {
   warn: warn,
   setFile: setFile,
   close: close,
-  err: err
+  err: err,
+  log: logPlain
 };
 
 var formatInt = function(int) {

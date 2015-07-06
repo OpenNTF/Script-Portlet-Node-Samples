@@ -91,6 +91,24 @@ var addDefaults = function(config) {
   return defaultConfig;
 };
 
+var getUrlRegExp = function() {
+  var or = function() { return "(" + arguments.join("|") + ")";  };
+  var stringify = function(pattern) { return or('"' + pattern + '"', "'" + pattern + "'")};
+  var maybe = function(pattern) { return "(" + pattern + ")?" }; // TODO
+
+  var path = "[\\w\\/\\._-]+";
+  var dir = stringify(path + "\\/"), file = stringify(path + "\\w+\\.\\w+");
+
+  var variable = "\\w+(\\.\\w+)*";
+  var plus = "\\s*\\+\\s*";
+
+  var end = "[\s\S]*[;|$]";
+
+  var pattern1 = dir + plus + variable;
+  var pattern2 = variable + plus + file;
+
+  return or(pattern1, pattern2);
+};
 
 
 module.exports = {

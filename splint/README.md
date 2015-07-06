@@ -1,7 +1,6 @@
 # Command Line Usage
 
-### Installing globally
-To install:
+To install (or update), run:
 ```
 npm install -g https://github.com/OpenNTF/Script-Portlet-Node-Samples/raw/master/splint.tgz
 ```
@@ -9,16 +8,7 @@ To use:
 ```
 splint [options]
 ```
-
-### Installing locally
-To install locally, run
-```
-npm install --save-dev https://github.com/OpenNTF/Script-Portlet-Node-Samples/raw/master/splint.tgz
-```
-Then to use:
-```
-node <path/to/splint-cli.js> [options]
-```
+Documentation about options can be found below
 
 ### Command Line options
 For more information about options, see the options section below. Some options
@@ -28,7 +18,7 @@ below.
 
 The config file can be set by `--config` or `-c`. For example,
 ```
-node <splint-cli.js> --config="src/splint-config.json"
+splint --config="src/splint-config.json"
 ```
 By default, `--config` is set to `./splint-config.json`.
 
@@ -40,9 +30,12 @@ Including any of the following options will set the option to true:
 Arguments can be passed as well:
 + `--src`: e.g. `node <splint-cli.js> --src="/**.css"`. Arrays cannot be passed to
   `--src` on the command line.
-+ `--conf, -c`: TODO: path to configuration options. Defaults to `cwd/splint-config.json`
++ `--conf, -c`: path to configuration options. If it is not specified, splint will
+  search for `splint-config.json` in the current working directory and its parent directories.
 + `--cwd`: current working directory. Defaults to `./`.
-+ `--dest, -d`
++ `--dest, -d`: The destination for modified files. If `--fix` is specified, 
+  then modified files with any fixes will be saved on the disk relative to `--dest`.
+  If no fixes were necessary, then the files will simply be copied to the destination.
 
 # Using Splint from Javascript
 Splint can be called from other javascript files (that's how the Gulp and Grunt
@@ -51,11 +44,14 @@ go to your project's root folder and run:
 ```
 npm install --save https://github.com/OpenNTF/Script-Portlet-Node-Samples/raw/master/splint.tgz
 ```
+
 Then inside a javascript file call
 ```
 splint = require("splint/lib/splint");
 
 splint.init();
+
+splint.config(myOptions); // optionally configure splint with your desired options
 
 splint.run();
 ```
@@ -105,7 +101,8 @@ calling `splint.run()` again or `splint.config`.
 #### options
 updates the configuration of splint when executing `run`. The configuration
 changes to not persist when `splint.run` is finished.
-####callback(err, out, raw, files)
+
+#### callback(err, out, raw, files)
 a callback for when `run` finishes. It takes four arguments:
 - `err`: Any errors that occurred during splint's execution.
   * NOTE: not currently implemented, for the time being, this argument will be null.
@@ -236,7 +233,13 @@ module.exports = function(grunt) {
     grunt.registerTask("default", "splint:default");
 }
 ```
-Any options given will override splint-config.json.
+
+Any options given will override splint-config.json. The `src` and `dest` options
+should be specified in Gruntfile.js as shown above. But note that `dest` should be 
+a directory, not a file. 
+
+You can use splint to fix source files after concatenating and minifying them. However,
+if you want to lint the files, use splint before concatenating or minifying them.
 
 # Using the gulp plugin
 To install, run:
@@ -363,7 +366,7 @@ the same folder as any build file (if using a Grunt or gulp plugin).
 
 The possible options
 
-####src
+#### src
 If using the Grunt and gulp plugins, this option should be specified in the Gruntfile/gulpfile.
 
 A string or array of strings listing which files should be checked and/or fixed. This field supports globs and wildcards.
@@ -382,20 +385,20 @@ Each element is executed in order. So if the following was given:
 then any css files in node_modules would not be ignored. The build directory should be ignored
 to prevent creating unnecessary files.
 
-####fix
+#### fix
 Either true or false. If this option is given, splint will fix some of the issues and store the
 results in the directory specified by the build option
 
-####dest 
+#### dest 
 The build directory. If `fix` is false, no output will be produced in this directory.
 With Grunt and Gulp, this is specified in the Gruntfile/gulpfile.
 
-####mainPortletClass
+#### mainPortletClass
 A class to be generated for the body. This will be used to restrict all
 css stylings to descendants of the portlet's body tag. By default, this will have the
 value of `__SPNS__sp-wrapper`.
 
-####fixes
+#### fixes
 The option can be used to choose which issues should be fixed. However, note
  that `fix` should be set to true in order for the fixes to be saved.
 + `html-jquery`: Either true or false. If true, any source tag that loads jquery without
@@ -415,7 +418,7 @@ The option can be used to choose which issues should be fixed. However, note
 - `js-selectors`: Similar to the `css-selectors` option. If specified, splint will
   look for and fix unqualified selectors in javascript such as `$("body")` or `$("span")`.
     
-####checks
+#### checks
 Selects which issues should be checked for:
 - `html-jquery`:  Checks if jquery is locally hosted.
 - `html-external-libs`: Checks if any external libraries are missing the
@@ -428,21 +431,21 @@ Selects which issues should be checked for:
 - `css-positions`: Checks for `position: fixed` since that may place elements
   outside the area of the portlet.
 - `css-fonts`: checks for .ttf and .woff fonts.
-- `js-selectors`:
+- `js-selectors`: Similar to 
 - `js-urls`: Looks for unmapped dynamic urls.
   
-####~~verbose~~
+#### ~~verbose~~
 Not currently implemented.
 
-####silent
+#### silent
 If true, no output will be sent to the command line.
 
-####raw
+#### raw
 Not currently implemented. If true, the warnings will be outputted in raw JSON.
 If false, the output will be nicely formatted text, as in the default.
 However, the raw output can be obtained by using callbacks
 
-####logFile
+#### logFile
 If specified, the output will be saved to the given file. This option
 does not affect any output to the command line.
 

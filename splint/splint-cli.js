@@ -14,24 +14,26 @@ var splint = require("./lib/splint");
 
 var args = require("minimist")(process.argv.slice(2));
 
+var conf = {};
+
 var initArgs = function() {
-  args.fix = args.fix || args.f;
+  if (args.fix || args.f) conf.fix = true;
 
-  args.silent = args.silent || args.s;
+  if (args.silent || args.s) conf.silent = true;
 
-  args.dest = args.dest || args.d || "sp-build";
+  conf.dest = args.dest || args.d || "sp-build";
 
-  args.cwd = args.cwd || "./";
+  conf.cwd = args.cwd || "./";
 
-  args.conf = args.conf || args.c || "splint-config.json";
+  conf.config = args.conf || args.c || "splint-config.json";
 
-  args.verbose = args.verbose || args.v;
+  conf.verbose = args.verbose || args.v;
 };
 
 initArgs();
 
 splint.init();
 
-splint.config(args);
+splint.config(conf);
 
 splint.run();

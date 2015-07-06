@@ -27,14 +27,14 @@ module.exports = function(config) {
   var checkSelectors = function(js) {
     // todo improve
     // todo check for getElementByTagName ?
-    var tags = /\$\(["'](body|html|\*|a|p|h\d|span|footer|section|div|ul|li|table|tr|tc|th)["']|document\.body\)/g;
+    var tags = /\$\(["'](body|html|\*|a|p|h\d|span|footer|section|div|ul|li|table|tr|tc|th)["']\)/g;
 
     // TODO document.body, 'body'
     if (config.checks["js-selectors"]) {
       var match;
       while((match = tags.exec(js)) !== null) {
         warnings.push({
-          message: "Please avoid unqualified DOM elements: " + match[0],
+          message: "Please avoid using unqualified selectors: " + match[0],
           line: getLine(js, match.index)
         });
       }
@@ -42,7 +42,7 @@ module.exports = function(config) {
       var otherChecks = /'body'|"body"|document\.body/g;
       while((match = otherChecks.exec(js)) !== null) {
         warnings.push({
-          message: "Please avoid using the unqualified selector: " + match[0],
+          message: "Please avoid using the body tag: " + match[0],
           line: getLine(js, match.index)
         });
       }
@@ -59,8 +59,7 @@ module.exports = function(config) {
    * (Naively) Searches for dynamic urls and warns about any.
    */
   var checkUrls = function(js) {
-    if (!config.checks["js-urls"]) { return; }
-
+    var check = config.checks["js-urls"];
     /*
      * The regex looks for two pattersn:
      * 1: "strings" + otherStrings + "literal/with/file-extension.file
@@ -77,15 +76,15 @@ module.exports = function(config) {
     //   (
     //     ["'][\w_\-\/\.]+\/["']                # Matches a directory (in a string literal)
     //     \s*\+                                 # + to match string concatenation
-    //     [\s\w_\-\+\.\/"']*                    # Other strings
+    //     [^\n;]+                               # Other strings
     //   )
     // /g
-    var reg = /^([\s\S]*\+\s*["'][\w_\-\/]*\.(jpeg|png|gif)["'])|(["'][\w_\-\/\.]+\/["']\s*\+[\s\w_\-\+\.\/"']*)/g;
+    var reg = /([^:\n=]*\+\s*["'][\w_\-\/]*\.(jpeg|png|gif|json)["'])|(["'][\w_\-\/\.]+\/["']\s*\+[^\n\)};]+)/g;
 
     var match;
     var lastMatchIndex = 0;
 
-    while((match = reg.exec(js)) !== null) {
+    while(check && (match = reg.exec(js)) !== null) {
       // to check if the matching string has been wrapped or not, TODO improve check
       var str = "__SPNS__spHelper.getElementURL(";
       if (js.substring(match.index - str.length, match.index) !== str) {
@@ -98,6 +97,16 @@ module.exports = function(config) {
       }
       lastMatchIndex = match.index;
     }
+
+    if (config.fixes["js-urls"]) {
+      /**
+       * Not implemented yet. Simple regex replacing won't work because:
+       * - What about strings that have already been mapped?
+       * - Paths inside function calls
+       * +
+       */
+    }
+
     return js;
   };
 
