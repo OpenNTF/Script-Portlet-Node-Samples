@@ -12,6 +12,14 @@
 
 // Contains some repetitive code that doesn't belong in any particular file
 
+var tagList = require('./tags.json').join("|");
+var tagRegex = "(((" // must be start of string
+  + tagList + ")"     // match a html tag
+  + "(::?\w+)?"       // pseudo element selectors
+  + "[ ~>\+]*"        // sibling, child, descendant selectors
+  +  ")+$";          // any descendants must also be tags
+
+
 /**
  *
  * @param fromObject
@@ -30,7 +38,6 @@ var copy = function(fromObject, toObject) {
       toObject[key] = fromObject[key];
     }
   }
-  // TODO update();
 };
 
 var matchGlobs = function(str, globs) {
@@ -45,7 +52,6 @@ var matchGlobs = function(str, globs) {
  * @param config: a persistent config
  * @param options
  */
-    //TODO better name
 var createHandler = function(config, options, cb) {
   if (!cb && options && options.constructor === Function) {
     cb = options;
@@ -73,7 +79,7 @@ var createHandler = function(config, options, cb) {
         // faster way to copy an object
         copy(temp, config);
       }
-      cb && cb.apply(null, arguments); // TODO context
+      cb && cb.apply(null, arguments);
       return that;
     }
   };
@@ -94,7 +100,7 @@ var addDefaults = function(config) {
 var getUrlRegExp = function() {
   var or = function() { return "(" + arguments.join("|") + ")";  };
   var stringify = function(pattern) { return or('"' + pattern + '"', "'" + pattern + "'")};
-  var maybe = function(pattern) { return "(" + pattern + ")?" }; // TODO
+  var maybe = function(pattern) { return "(" + pattern + ")?" }; 
 
   var path = "[\\w\\/\\._-]+";
   var dir = stringify(path + "\\/"), file = stringify(path + "\\w+\\.\\w+");
@@ -114,5 +120,6 @@ var getUrlRegExp = function() {
 module.exports = {
   addDefaults: addDefaults,
   copy: copy,
-  createHandler: createHandler
+  createHandler: createHandler,
+  tagRegStr: tagRegex
 };

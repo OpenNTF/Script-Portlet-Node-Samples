@@ -36,7 +36,7 @@ var lint        = {},
  * Resets stateful variables
  */
 var reset = function() {
-  outputLog = ""; // todo reset();
+  outputLog = "";
   warnings = []; // reset warnings
   files = [];
 };
@@ -64,7 +64,6 @@ var initConfig = function() {
 
   config.cwd = config.cwd || process.cwd();
 
-  // TODO config.log -> config._log?
   // Set config.log, this can't be done in default-config, it must be done in js
   var logger = config.log || console.log;
   config.log = function(str) {
@@ -113,8 +112,6 @@ var init = function() {
 
 /**
  * Updates other variables when config has changed
- *
- * TODO, this is called more often than it should
  */
 var update = function(options) {
   options = options || "";
@@ -137,7 +134,7 @@ var update = function(options) {
 
   config.logFile = config.logFile || "";
   if (config.output && config.output.file) {
-    config.logFile = config.output.file; // TODO deprecate
+    config.logFile = config.output.file; 
   }
   if (!path.isAbsolute(config.logFile) && config.logFile.length) {
     config.logFile = path.normalize(config.cwd + "/" + config.logFile);
@@ -147,7 +144,7 @@ var update = function(options) {
   }
 
   config.wrapper = "";
-  if (true || config.mainPortletClass.match(/__SPNS__/)) { // TODO
+  if (true || config.mainPortletClass.match(/__SPNS__/)) {
     config.wrapper = "." + config.mainPortletClass;
   } else if (config.mainPortletClass) {
     config.wrapper = ".__SPNS__" + config.mainPortletClass;
@@ -170,7 +167,6 @@ var run = function(options, callback) {
     .pipe(ignore.include(config.fix))
     .pipe(vinyl.dest(config.dest, {cwd: config.cwd}))
     .on("end", function() {
-      // TODO Handle optional raw output
       running = false;
       reporter.close();
 
@@ -189,7 +185,6 @@ var run = function(options, callback) {
 var inspect = function(file) {
   var result = {};
 
-  // TODO check for any config files in other directories
   file.extname = file.extname || path.extname(file.path);
 
   if (file.extname.match(/\.(html|css|js)$/)) {

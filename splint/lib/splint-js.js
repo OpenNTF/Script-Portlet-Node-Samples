@@ -25,11 +25,10 @@ module.exports = function(config) {
    * will be made
    */
   var checkSelectors = function(js) {
-    // todo improve
-    // todo check for getElementByTagName ?
-    var tags = /\$\(["'](body|html|\*|a|p|h\d|span|footer|section|div|ul|li|table|tr|tc|th)["']\)/g;
 
-    // TODO document.body, 'body'
+    var tags = new RegExp("\\$\\([\"']" + util.tagRegStr + "[\"']\\)", "g");
+
+
     if (config.checks["js-selectors"]) {
       var match;
       while((match = tags.exec(js)) !== null) {
@@ -85,10 +84,10 @@ module.exports = function(config) {
     var lastMatchIndex = 0;
 
     while(check && (match = reg.exec(js)) !== null) {
-      // to check if the matching string has been wrapped or not, TODO improve check
+      // to check if the matching string has been wrapped or not
       var str = "__SPNS__spHelper.getElementURL(";
       if (js.substring(match.index - str.length, match.index) !== str) {
-        // TODO strip comments from js
+
         warnings.push({
           message: "Please map any dynamic urls: " + match[0],
           line: getLine(js, match.index),
@@ -124,6 +123,16 @@ module.exports = function(config) {
       }
     }
     return line;
+  };
+
+  var stripComments = function(js) {
+    // multi line OR single line comment
+    var comment = /(\/\*[\s\S]+?\*\/)|(\/\*[\s\S]+?\*\/)/gm;
+
+    //return js.replace(comment, match => match.replace(/\w/g, "-"));
+    return js.replace(comment, function(match) {
+      return match.replace(/\w/g, "-");
+    });
   };
 
   /**

@@ -22,30 +22,15 @@ module.exports = function(config) {
 
   var warnings = [];
 
-  var warn = function(message, line, column) {
-    // TODO add more information with warnings
-  };
-
-  /**
-   * Regex to match css selectors
-   */
-  var tagList = require('./tags.json').join("|");
-  var tagRegex = "(^((" // must be start of string
-    + tagList + ")"     // match a html tag
-    + "(::?\w+)?"       // pseudo element selectors
-    + "[ ~>\+]*"        // sibling, child, descendant selectors
-    +  ")+$)";          // any descendants must also be tags
-
-  tagRegex = new RegExp(tagRegex, "i");
-
   /**
    * Checks for css selectors that may affect elements on the page outside the portlet.
    *
    * @param rule
    */
   var checkSelectors = function(rule) {
-    // TODO error handling
     var selectors = rule.selectors || [];
+
+    var tagRegex = new RegExp("^" + util.tagRegStr + "$");
 
     var re = new RegExp("^(" + config.wrapper.replace(".", "\.") + "|body|html)");
 
@@ -75,8 +60,7 @@ module.exports = function(config) {
     var matches = width.value.match(/^(\d+)px/) || ["0"],
         val     = parseInt(matches[0], 10); // Base 10
 
-    // TODO specify the expected width of the portlet in a config file?
-    if (val > 750) {
+    if (val > 750) { // 750 was chosen arbitrarily
       if (config.checks["css-widths"]) {
         var line = width.position.start.line;
         warnings.push({
@@ -146,8 +130,6 @@ module.exports = function(config) {
   var checkFonts = function(fontFace) {
     if (!config.checks["css-fonts"]) { return; }
 
-    // TODO fix bad fonts
-
     var badFonts = /url\((\S+\.(ttf|woff)\S+\))/g,
         cdn = /\.(com|net|org|edu)|^http/g;
     var declarations = fontFace.declarations;
@@ -165,7 +147,7 @@ module.exports = function(config) {
   };
 
   /**
-   * Checks each rule in the ast
+   * Checks each rule in the AST
    */
   var checkRules = function(rules) {
     for (var i = 0, j = rules.length; i < j; i++) {
@@ -200,13 +182,12 @@ module.exports = function(config) {
 
     var handler = util.createHandler(config, options, save).start();
     try {
-//      css = stripSlashComments(css); // TODO not do
       ast = cssParser.parse(css);
       rules = ast.stylesheet.rules;
       checkRules(rules);
       css = cssParser.stringify(ast)
 
-    } catch (err) { // TODO better error handling
+    } catch (err) {
       error = err;
     }
 

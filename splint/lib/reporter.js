@@ -72,9 +72,6 @@ var warn = function(warnings, logger, verbose) {
       for (var k = 1, l = printLines.length; k < l; k++) {
         log(prefix + printLines[k]);
       }
-
-      // TODO delete?
-      totalWarnings += warnings.length;
     }
   } else if (verbose) {
       log(chalk.green("\n0 issues found in " + path));
@@ -85,7 +82,7 @@ var err = function(error, filepath, logger) {
   config.log = logger;
 
   log(chalk.bgRed("ERROR WHEN PARSING " + filepath));
-  var lines = error.message.match(/[^\n]{1,68}(?:[^\w]|$)/g) || []; // TODO remove repetition
+  var lines = error.message.match(/[^\n]{1,68}(?:[^\w]|$)/g) || [];
 
   for (var i = 0; i < lines.length; i++) {
     config.log(chalk.bgRed(lines[i]));
