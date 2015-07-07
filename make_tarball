@@ -1,0 +1,1 @@
+npm pack splint && mv splint-0.1.0.tgz splint.tgz
