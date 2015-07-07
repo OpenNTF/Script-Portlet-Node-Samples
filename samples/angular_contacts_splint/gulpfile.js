@@ -64,7 +64,7 @@ gulp.task('build-assets', function() {
 
 gulp.task('build-all', ['build-html', 'build-styles', 'build-scripts', 'build-assets']);
 
-gulp.task('sp-push', ['build-all'], shell.task(
+gulp.task('sp-push', shell.task(
   'sp push -mainHtmlFile ' + releaseFolder + 'index.html'
 ));
 
