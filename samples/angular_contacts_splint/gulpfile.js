@@ -17,8 +17,8 @@ var minifyCss = require('gulp-minify-css')
 var less = require('gulp-less');
 var jshint = require('gulp-jshint');
 var shell = require('gulp-shell');
-var htmlTidy = require('gulp-htmltidy')
-var runSequence = require('run-sequence')
+var htmlTidy = require('gulp-htmltidy');
+var runSequence = require('run-sequence');
 
 var splint = require('splint/gulp');
 
@@ -28,11 +28,11 @@ var lessFiles = ['less/*.less', 'bower_components/bootstrap-less/**/bootstrap.le
 var htmlFiles = ['index.html', 'partials/*.html'];
 var assets = ['data/*.json'];
 
-// Compiles, concatinates, and minifies less
+// Compiles, concatenates, and minifies less
 gulp.task('build-styles', function() {
   return gulp.src(lessFiles)
     .pipe(less())
-    .pipe(splint()) // TODO sourcemap for linting
+    .pipe(splint())
     .pipe(minifyCss())
     .pipe(concat('all-styles.css'))
     .pipe(gulp.dest(releaseFolder));
@@ -70,7 +70,7 @@ gulp.task('sp-push', shell.task(
 
 gulp.task('watch', function() {
   gulp.watch(htmlFiles, function() { runSequence('build-html', 'sp-push') });
-  gulp.watch(lessFiles, function() { runSequence('build-less', 'sp-push') });
+  gulp.watch(lessFiles, function() { runSequence('build-styles', 'sp-push') });
   gulp.watch(jsFiles, function() { runSequence('build-scripts', 'sp-push') });
   gulp.watch(assets, function() { runSequence('build-assets', 'sp-push') });
 });

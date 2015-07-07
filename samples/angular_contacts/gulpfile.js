@@ -31,7 +31,7 @@ var cssFiles = ['css/*.css'];
 var htmlFiles = ['index.html', 'partials/*.html'];
 var assets = ['data/*.json', 'img/*.jpeg'];
 
-// Compiles, concatinates, and minifies less
+// Compiles, concatenates, and minifies less
 gulp.task('build-styles', function() {
   return gulp.src(cssFiles)
     .pipe(less())
@@ -40,7 +40,7 @@ gulp.task('build-styles', function() {
     .pipe(gulp.dest(releaseFolder));
 });
 
-gulp.task('build-scripts', function(cb) {
+gulp.task('build-scripts', function() {
   return gulp.src(jsFiles)
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
@@ -68,7 +68,7 @@ gulp.task('sp-push', shell.task(
 
 gulp.task('watch', function() {
   gulp.watch(htmlFiles, function() { runSequence('build-html', 'sp-push') });
-  gulp.watch(cssFiles, function() { runSequence('build-css', 'sp-push') });
+  gulp.watch(cssFiles, function() { runSequence('build-styles', 'sp-push') });
   gulp.watch(jsFiles, function() { runSequence('build-scripts', 'sp-push') });
   gulp.watch(assets, function() { runSequence('build-assets', 'sp-push') });
 });
