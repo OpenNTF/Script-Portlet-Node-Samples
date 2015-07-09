@@ -99,11 +99,14 @@ var init = function() {
 
       searchParents = false;
     } catch (err) {
-      if (err.code !== "ENOENT") {
+      if (err.code == "ENOENT") {
+        searchDir = path.resolve(searchDir + '/../'); // search the parent
+        searchParents = searchDir !== path.resolve('/'); // stop when the root is reached
+      } else if (err.constructor === SyntaxError) {
+        reporter.err(err, path.relative(process.cwd(), path.resolve(searchDir, configFile)), config.log)
+      } else {
         throw err;
       }
-      searchDir = path.resolve(searchDir + '/../'); // search the parent
-      searchParents = searchDir !== path.resolve('/'); // stop when the root is reached
     }
   } while (searchParents);
 

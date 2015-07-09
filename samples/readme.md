@@ -35,7 +35,7 @@ any file changes.
 
 This sample does not use splint.
 
-#### angular_contancts_splint
+#### angular_contacts_splint
 First install bower via npm:
 ```
 $ npm install -g bower

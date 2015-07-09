@@ -27,7 +27,7 @@ var config = {
 
 var totalWarnings = 0;
 
-var logFile = "", logContents;
+var logFile = "", logContents = "";
 
 var log = function(str) {
   config.log(str);

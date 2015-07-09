@@ -38,7 +38,7 @@ any file changes.
 
 This sample does not use splint.
 
-#### angular_contancts_splint
+#### angular_contacts_splint
 First install bower via npm:
 ```
 $ npm install -g bower
@@ -69,7 +69,7 @@ will build and push the sample again so everything will be up to date.
 Splint is a Node.js utility for making your application more portlet 
 friendly. More information can be found in its README. It can be installed globally by running:
 ```
-$ npm install https://github.com/OpenNTF/Script-Portlet-Node-Samples/raw/master/splint.tgz
+$ npm install -g https://github.com/OpenNTF/Script-Portlet-Node-Samples/raw/master/splint.tgz
 ```
 
 ##OPENNTF##
