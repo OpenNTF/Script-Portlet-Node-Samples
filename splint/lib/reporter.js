@@ -81,7 +81,7 @@ var warn = function(warnings, logger, verbose) {
 var err = function(error, filepath, logger) {
   config.log = logger;
 
-  log(chalk.bgRed("ERROR WHEN PARSING " + filepath));
+  log(chalk.bgRed("\nERROR WHEN PARSING " + filepath));
   var lines = error.message.match(/[^\n]{1,68}(?:[^\w]|$)/g) || [];
 
   for (var i = 0; i < lines.length; i++) {

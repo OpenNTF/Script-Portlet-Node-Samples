@@ -102,7 +102,7 @@ module.exports = function(config) {
     if (src && src.match(externalLib) && !$script.attr(themeAttr)) {
       if (config.checks["html-external-libs"]) {
 
-        var lib = (src.match(/([\w\.\d_-]+)/) || [""])[0];
+        var lib = (src.match(/([\w\.\d_-]+)$/) || [""])[0];
         lib = lib.length ? "'" + lib + "' " : lib;
         warnings.push({
           message: "Please load the library " + lib + "from the page's Portal theme"

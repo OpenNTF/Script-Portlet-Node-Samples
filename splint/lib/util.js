@@ -53,7 +53,7 @@ var matchGlobs = function(str, globs) {
  * @param options
  */
 var createHandler = function(config, options, cb) {
-  if (!cb && options && options.constructor === Function) {
+  if (!cb && options && typeof options === 'function') {
     cb = options;
     options = null;
   }
