@@ -1,9 +1,14 @@
 # Sample Node.js Build Tools for Script Portlet
 
 ## Samples
-There are a few sample portlets that use a few Node.js build tools. To run the samples,
+There are a few sample portlets that use a few Node.js build tools.
 
-Make sure that Node is installed on your system. Then install gulp globally:
+The samples require `sp`, Script Portlet's command line utility, to be installed an
+in your system's path in order to push applications from a gulp or Grunt build script.
+Documentation about installing and using Script Portlet's command line utility can be found
+[here](http://www-01.ibm.com/support/knowledgecenter/SSHRKX_8.5.0/script/script-portlet/cmd_line_push.dita?lang=en).
+
+Make sure that Node.js is installed on your system. Then install gulp globally:
 ```
 $ npm install -g gulp
 ```
@@ -20,6 +25,9 @@ This will push each sample to the same portlet. (Each sample has the same sp-con
 The running portlets can be found on the playground site at this link:
 
 The sample's won't work without being built. To run the samples run `$ gulp` then use `release/index.html`.
+
+More information about using and writing Node.js build tools with Script Portlet can be found
+on the [IBM Digital Experience Developer Center](https://developer.ibm.com/digexp/docs/docs/script-portlet/using-node-js-build-tools-with-script-portlet/).
 
 #### angular_contacts
 This is the original angular contacts with a few changes:
@@ -57,7 +65,7 @@ Splint is used to fix those issues.
 
 Run `$ npm install` and `$ bower install` before running `gulp` for the first time.
 
-Next run `$ gulp` to build and push the sample. 
+Next run `$ gulp` to build and push the sample.
 
 Afterwards, the sample can run in Firefox by
 opening `./release/index.html`. Note that while running gulp on the command line,
@@ -66,7 +74,7 @@ will build and push the sample again so everything will be up to date.
 
 
 ## Splint
-Splint is a Node.js utility for making your application more portlet 
+Splint is a Node.js utility for making your application more portlet
 friendly. More information can be found in its README. It can be installed globally by running:
 ```
 $ npm install -g https://github.com/OpenNTF/Script-Portlet-Node-Samples/raw/master/splint.tgz
