@@ -160,24 +160,33 @@ var run = function(options, callback) {
   running = true;
 
   var handler = util.createHandler(config, options, callback).start();
+  
+  // save the results
+  var conf = JSON.parse(JSON.stringify(config));
+  var src = conf.src;
+  var dest = conf.dest;
+  var cwd = conf.cwd;
+  var fix = conf.fix;
 
+  var warns = [], fs = [];
+  
   // The actual running
-  vinyl.src(config.src, {cwd: config.cwd})
+  vinyl.src(src, {cwd: cwd})
     .pipe(es.map(function(file, callback) {
-      inspect(file);
+      inspect(file, conf, cwd, fs, warns);
       return callback(null, file);
     }))
-    .pipe(ignore.include(config.fix))
-    .pipe(vinyl.dest(config.dest, {cwd: config.cwd}))
+    .pipe(ignore.include(fix))
+    .pipe(vinyl.dest(dest, {cwd: cwd}))
     .on("end", function() {
       running = false;
       reporter.close();
 
-      var warns = warnings, out = chalk.stripColor(outputLog), f = files;
+      var out = chalk.stripColor(outputLog);
       reset();
 
       // Let handler reset config, call the callback
-      handler.finish(null, out, warns, f);
+      handler.finish(null, out, warns, fs);
     });
 };
 
@@ -185,23 +194,27 @@ var run = function(options, callback) {
  * Lints the given file and writes the output to the console.
  * @param file
  */
-var inspect = function(file) {
+var inspect = function(file, conf, cwd, fs, warns) {
+  conf = conf || config;
+  cwd = cwd || conf.cwd;
+  fs = fs || files;
+  warns = warns || warnings;
   var result = {};
 
   file.extname = file.extname || path.extname(file.path);
 
   if (file.extname.match(/\.(html|css|js)$/)) {
-    var linter = lint[file.extname](config);
+    var linter = lint[file.extname](conf);
     result = {
-      path: path.relative(config.cwd, file.path),
+      path: path.relative(cwd, file.path),
       messages: linter(file.contents.toString(), updateFile(file))
     };
   }
-  files.push(file);
+  fs.push(file);
 
   if (result.path) {
-    reporter.warn(result, config.log, config.verbose);
-    warnings.push(result);
+    reporter.warn(result, config.log, conf.verbose);
+    warns.push(result);
   }
 };
 
@@ -210,11 +223,12 @@ var inspect = function(file) {
  *
  * Note: The object is modified in memory so it is not saved to the disk.
  */
-var updateFile = function(file) {
+var updateFile = function(file, conf) {
+  conf = conf || config;
   return function(err, contents) {
     if (err) {
-      reporter.err(err, path.relative(config.cwd, file.path), config.log);
-    } else if (config.dest && config.fix) {
+      reporter.err(err, path.relative(conf.cwd, file.path), config.log);
+    } else if (conf.dest && conf.fix) {
       file.contents = new Buffer(contents);
     }
   }
