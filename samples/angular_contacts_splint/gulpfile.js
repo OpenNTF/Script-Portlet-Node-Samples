@@ -9,7 +9,6 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
@@ -22,11 +21,20 @@ var runSequence = require('run-sequence');
 
 var splint = require('splint/gulp');
 
-var releaseFolder = './release/';
-var jsFiles = ['js/!(jquery)*.js'];
+var releaseFolder = 'release/';
+var jsFiles = ['js/*.js'];
 var lessFiles = ['less/*.less', 'bower_components/bootstrap-less/**/bootstrap.less'];
 var htmlFiles = ['index.html', 'partials/*.html'];
-var assets = ['data/*.json'];
+var assets = ['data/*.json', 'sp-config.json'];
+
+var pushCommand;
+if (process.platform === "win32") {
+  // For Windows
+  pushCommand = 'sp push -mainHtmlFile index.html';
+} else {
+  // For Mac and Linux
+  pushCommand = 'sp.sh push -mainHtmlFile index.html';
+}
 
 // Compiles, concatenates, and minifies less
 gulp.task('build-styles', function() {
@@ -64,9 +72,7 @@ gulp.task('build-assets', function() {
 
 gulp.task('build-all', ['build-html', 'build-styles', 'build-scripts', 'build-assets']);
 
-gulp.task('sp-push', shell.task(
-  'sp push -mainHtmlFile ' + releaseFolder + 'index.html'
-));
+gulp.task('sp-push', shell.task(pushCommand, { cwd: releaseFolder }));
 
 gulp.task('watch', function() {
   gulp.watch(htmlFiles, function() { runSequence('build-html', 'sp-push') });
